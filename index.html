@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Rotating Wheel with Stars and Background Change</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow: hidden; /* Ensures stars stay within view */
+      transition: background-color 1s ease; /* Smooth color change */
+    }
+
+    h1 {
+      position: relative;
+      top: 0;
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .wheel-container {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      border: 5px solid white;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, brown, grey);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .wheel-container:hover {
+      transform: rotate(360deg);
+    }
+
+    .spokes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .spoke {
+      position: absolute;
+      width: 4px;
+      height: 100px;
+      background: red;
+      top: 0;
+      left: 50%;
+      transform-origin: bottom center;
+    }
+
+    .spoke:nth-child(1) { transform: rotate(0deg); }
+    .spoke:nth-child(2) { transform: rotate(45deg); }
+    .spoke:nth-child(3) { transform: rotate(90deg); }
+    .spoke:nth-child(4) { transform: rotate(135deg); }
+    .spoke:nth-child(5) { transform: rotate(180deg); }
+    .spoke:nth-child(6) { transform: rotate(225deg); }
+    .spoke:nth-child(7) { transform: rotate(270deg); }
+    .spoke:nth-child(8) { transform: rotate(315deg); }
+
+    /* Star Styling */
+    .star {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 10px yellow;
+      animation: fade 1.5s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes fade {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.5); }
+      100% { opacity: 0; transform: scale(0.5); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.2rem;
+        padding: 8px 15px;
+      }
+
+      .wheel-container {
+        width: 150px;
+        height: 150px;
+        border-width: 4px;
+      }
+
+      .spoke {
+        width: 3px;
+        height: 75px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1rem;
+        padding: 5px 10px;
+      }
+
+      .wheel-container {
+        width: 120px;
+        height: 120px;
+        border-width: 3px;
+      }
+
+      .spoke {
+        width: 2px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Wheel Rotates as soon as you hover on the wheel</h1>
+  <div class="wheel-container" onmouseover="activateEffects()">
+    <div class="spokes">
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+      <div class="spoke"></div>
+    </div>
+  </div>
+  <h1>Made by Utkarsh Aggarwal</h1>
+
+  <script>
+    function activateEffects() {
+      generateStars();
+      changeBackgroundColor();
+    }
+
+    function generateStars() {
+      const starCount = 20; // Number of stars
+      const body = document.body;
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+
+        // Random position
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.top = Math.random() * window.innerHeight + 'px';
+
+        body.appendChild(star);
+
+        // Remove star after animation
+        setTimeout(() => {
+          star.remove();
+        }, 1500);
+      }
+    }
+
+    function changeBackgroundColor() {
+      const colors = ['#ff6f61', '#6a11cb', '#2575fc', '#ffcc00', '#28a745', '#17a2b8'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      document.body.style.background = randomColor;
+    }
+  </script>
+</body>
+</html>
